@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+ /* everything above this is added on default */
+body {
+  font-family: Arial, sans-serif;
+}
