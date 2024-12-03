@@ -71,3 +71,43 @@ div {
   text-align: center;
   margin-top: 50px;
 }
+
+/* below this is the create a flashcard set page styling */
+
+form {
+  margin: 20px auto;
+  max-width: 500px; 
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  overflow: hidden; /* this fixes the bad border issuse in the set name box*/
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* this also fixes the bad border */
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
