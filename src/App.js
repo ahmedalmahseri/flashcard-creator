@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import HomePage from './pages/HomePage';
 import CreateSetPage from './pages/CreateSetPage';
 import StudyPage from './pages/StudyPage';
+import './App.css';
 
 function App() {
-  const [page, setPage] = useState('home'); // Simple state to manage navigation
+  const [page, setPage] = useState('home'); 
 
   return (
     <div>

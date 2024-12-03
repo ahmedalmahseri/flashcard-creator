@@ -39,4 +39,35 @@
  /* everything above this is added on default */
 body {
   font-family: Arial, sans-serif;
+  margin: 0; /* removes any margin around the page */
+  padding: 0;
+  background-color: #f4f4f9;
+  color: #333; /* sets the default text color to dark gray */
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #222;
+  text-align: center;
+  margin-top: 20px; /* adds some space above the header so it doesnt stick to the top */
+}
+
+button {
+  padding: 10px 20px; /* adds space inside the button to make it biger*/
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+div {
+  text-align: center;
+  margin-top: 50px;
 }
