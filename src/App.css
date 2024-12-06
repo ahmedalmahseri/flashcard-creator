@@ -111,3 +111,37 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+/* below this is the study page styling */
+.flashcard {
+  margin: 20px auto;
+  max-width: 400px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px; /* rounds the card corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* adds a soft shadow */
+  text-align: left; /* aligns text to the left for a professional look */
+}
+
+.flashcard h2 {
+  color: #007bff; /* blue color for headings */
+  margin-bottom: 10px; /* adds space below the headings */
+}
+
+.flashcard p {
+  margin: 0;
+  font-size: 1.1rem; /* makes the text slightly larger for readability */
+  line-height: 1.5; /* improves readability with line spacing */
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between; /* positions the buttons on opposite sides */
+  max-width: 400px;
+  margin: 10px auto; /* centers the button container */
+}
+
+button:disabled {
+  background-color: #ccc; /* gray out disabled buttons */
+  cursor: not-allowed; /* change the cursor to indicate disabled state */
+}
