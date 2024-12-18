@@ -2,11 +2,42 @@ import React, { useState } from 'react';
 
 const CreateSetPage = ({ onNavigate }) => {
   const [setName, setSetName] = useState(''); // state for flashcard set name
-  const [cards, setCards] = useState([]); // state for flashcards
+  const [cards, setCards] = useState([{ question: '', answer: '' }]); // state for flashcards
+  const [successMessage, setSuccessMessage] = useState(''); // success message
 
   const addCard = () => {
-    setCards([...cards, { question: '', answer: '' }]);
+    setCards([...cards, { question: '', answer: '' }]); // add a blank card
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); // prevent the page from reloading
+  
+    const newSet = { title: setName, cards }; // gather form data
+  
+    console.log('Form Data Being Sent:', newSet); // Debug: Log form data being sent
+  
+    fetch('http://localhost:5001/api/sets', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newSet),
+    })
+      .then((response) => {
+        console.log('Raw Response:', response); // Debug: Log raw response
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Server Response:', data); // Debug: Log the backend response
+        setSuccessMessage('Flashcard set created successfully!');
+        setSetName(''); // Reset form
+        setCards([{ question: '', answer: '' }]);
+        onNavigate('home');
+      })
+      .catch((error) => {
+        console.error('Error creating flashcard set:', error); // Debug: Log any errors
+      });
+  };
+
+  const isFormValid = setName.trim() !== '' && cards.length > 0 && cards.every(card => card.question.trim() && card.answer.trim());
 
   return (
     <div>
@@ -16,8 +47,11 @@ const CreateSetPage = ({ onNavigate }) => {
       {/* button to go back to the home page */}
       <button onClick={() => onNavigate('home')}>Back to Home</button>
 
+      {/* display success message */}
+      {successMessage && <p>{successMessage}</p>}
+
       {/* form section */}
-      <form>
+      <form onSubmit={handleSubmit}>
         {/* label for the set name */}
         <label>
           Set Name:
@@ -64,6 +98,11 @@ const CreateSetPage = ({ onNavigate }) => {
         {/* button to add a new card */}
         <button type="button" onClick={addCard}>
           Add Card
+        </button>
+
+        {/* button to submit the form */}
+        <button type="submit" disabled={!isFormValid}>
+          Create Set
         </button>
       </form>
     </div>

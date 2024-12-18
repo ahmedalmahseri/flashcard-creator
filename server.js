@@ -1,16 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose'); // to interact with MongoDB
 const app = express();
-const port = 5000;
+const port = 5001;
+const cors = require('cors');
 
-// Middleware to parse JSON
 app.use(express.json());
+app.use(cors());
 
 // connect to mongoDB
 mongoose.connect('mongodb+srv://Ahmed:4815162342@cluster0.o3tt3.mongodb.net/flashcardDB?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
+
+
 // mongodb+srv://Ahmed:<db_password>@cluster0.o3tt3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
   .then(() => console.log('Connected to MongoDB')) // confirm connection success
   .catch(err => console.error('Error connecting to MongoDB:', err.message)); // handle connection errors
@@ -19,6 +22,7 @@ mongoose.connect('mongodb+srv://Ahmed:4815162342@cluster0.o3tt3.mongodb.net/flas
 const flashcardSchema = new mongoose.Schema({
   question: { type: String, required: true },
   answer: { type: String, required: true },
+
 });
 
 const flashcardSetSchema = new mongoose.Schema({
@@ -35,13 +39,16 @@ const FlashcardSet = mongoose.model('FlashcardSet', flashcardSetSchema);
 // create a new flashcard set
 app.post('/api/sets', async (req, res) => {
   try {
-    const newSet = new FlashcardSet(req.body); // create set from request body
-    const savedSet = await newSet.save(); // save to database
+    const newSet = new FlashcardSet(req.body); // create a new flashcard set
+    const savedSet = await newSet.save(); // save to the database
     res.status(201).json(savedSet); // return the saved set
-  } catch (err) {
-    res.status(400).json({ error: err.message }); // handle errors
+  } 
+  catch (err) {
+    console.error('Error saving flashcard set:', err.message);
+    res.status(400).json({ error: err.message }); // handles errors
   }
 });
+
 
 // get all flashcard sets
 app.get('/api/sets', async (req, res) => {
@@ -50,6 +57,7 @@ app.get('/api/sets', async (req, res) => {
     res.json(sets);
   } catch (err) {
     res.status(500).json({ error: err.message }); // handle errors
+
   }
 });
 
@@ -68,6 +76,7 @@ app.get('/api/sets/:id', async (req, res) => {
 app.put('/api/sets/:id', async (req, res) => {
   try {
     const updatedSet = await FlashcardSet.findByIdAndUpdate(req.params.id, req.body, { new: true }); // update and return new
+
     res.json(updatedSet);
   } catch (err) {
     res.status(400).json({ error: err.message }); // handle errors
@@ -79,18 +88,15 @@ app.delete('/api/sets/:id', async (req, res) => {
   try {
     await FlashcardSet.findByIdAndDelete(req.params.id); // delete by id
     res.json({ message: 'Set deleted' }); // confirm deletion
-  } catch (err) {
+  } 
+  catch (err) {
     res.status(500).json({ error: err.message }); // handle errors
   }
 });
 // end of connecting to mongo
 
-// Test route
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'API is working!' });
-});
-
 // Start the server
 app.listen(port, () => {
+
   console.log(`Backend server running on http://localhost:${port}`);
 });
