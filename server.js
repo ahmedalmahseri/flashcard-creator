@@ -89,7 +89,7 @@ app.put('/api/sets/:id', async (req, res) => {
 app.delete('/api/sets/:id', async (req, res) => {
   try {
     await FlashcardSet.findByIdAndDelete(req.params.id); // delete by id
-    res.json({ message: 'Set deleted' }); // confirm deletion
+    res.json({ message: 'Flashcard set deleted successfully' }); // confirm deletion
   } 
   catch (err) {
     res.status(500).json({ error: err.message }); // handle errors
