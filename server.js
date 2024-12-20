@@ -54,10 +54,10 @@ app.post('/api/sets', async (req, res) => {
 app.get('/api/sets', async (req, res) => {
   try {
     const sets = await FlashcardSet.find(); // retrieve all sets
-    res.json(sets);
+    res.json(sets); // return the sets as a json response
   } catch (err) {
+    console.error('Error retrieving flashcard sets:', err); // log the error for debugging
     res.status(500).json({ error: err.message }); // handle errors
-
   }
 });
 
@@ -68,9 +68,11 @@ app.get('/api/sets/:id', async (req, res) => {
     if (!set) return res.status(404).json({ error: 'Set not found' }); // handle not found
     res.json(set);
   } catch (err) {
+    console.error('Error retrieving flashcard set:', err); // log the error for debugging
     res.status(500).json({ error: err.message }); // handle errors
   }
 });
+
 
 // update a flashcard set by id
 app.put('/api/sets/:id', async (req, res) => {

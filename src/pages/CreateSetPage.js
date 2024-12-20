@@ -4,6 +4,7 @@ const CreateSetPage = ({ onNavigate }) => {
   const [setName, setSetName] = useState(''); // state for flashcard set name
   const [cards, setCards] = useState([{ question: '', answer: '' }]); // state for flashcards
   const [successMessage, setSuccessMessage] = useState(''); // success message
+  const [errorMessage, setErrorMessage] = useState(''); // error message
 
   const addCard = () => {
     setCards([...cards, { question: '', answer: '' }]); // add a blank card
@@ -11,29 +12,34 @@ const CreateSetPage = ({ onNavigate }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent the page from reloading
-  
+
     const newSet = { title: setName, cards }; // gather form data
-  
-    console.log('Form Data Being Sent:', newSet); // Debug: Log form data being sent
-  
+
+    // Clear previous messages
+    setErrorMessage('');
+    setSuccessMessage('');
+
     fetch('http://localhost:5001/api/sets', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newSet),
+      body: JSON.stringify(newSet), // convert the data to JSON
     })
       .then((response) => {
-        console.log('Raw Response:', response); // Debug: Log raw response
+        if (!response.ok) {
+          throw new Error('Failed to create flashcard set.');
+        }
         return response.json();
       })
       .then((data) => {
-        console.log('Server Response:', data); // Debug: Log the backend response
-        setSuccessMessage('Flashcard set created successfully!');
+        console.log('Flashcard set created:', data); // Debugging log
+        setSuccessMessage('Flashcard set created successfully!'); // Display success
         setSetName(''); // Reset form
         setCards([{ question: '', answer: '' }]);
-        onNavigate('home');
+        setTimeout(() => onNavigate('home'), 1000); // Navigate back to home after 1 second
       })
       .catch((error) => {
-        console.error('Error creating flashcard set:', error); // Debug: Log any errors
+        console.error('Error creating flashcard set:', error); // Debugging log
+        setErrorMessage('Error creating flashcard set. Please try again.'); // Show error to user
       });
   };
 
@@ -41,66 +47,55 @@ const CreateSetPage = ({ onNavigate }) => {
 
   return (
     <div>
-      {/* section for page header */}
       <h1>Create a Flashcard Set</h1>
-
-      {/* button to go back to the home page */}
       <button onClick={() => onNavigate('home')}>Back to Home</button>
 
-      {/* display success message */}
-      {successMessage && <p>{successMessage}</p>}
+      {/* Display error or success messages */}
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
 
-      {/* form section */}
       <form onSubmit={handleSubmit}>
-        {/* label for the set name */}
         <label>
           Set Name:
-          {/* input for the set name */}
           <input
             type="text"
-            value={setName} // controlled input for set name (a string)
-            onChange={(e) => setSetName(e.target.value)} // updates setName state
-            placeholder="Enter set name" // placeholder text for input
+            value={setName}
+            onChange={(e) => setSetName(e.target.value)}
+            placeholder="Enter set name"
           />
         </label>
 
-        {/* section to render all flashcards */}
         <div>
           {cards.map((card, index) => (
             <div key={index} style={{ marginBottom: '15px' }}>
-              {/* input for question */}
               <input
                 type="text"
-                placeholder="Question" // text placeholder for clarity
-                value={card.question} // controlled input for question
+                placeholder="Question"
+                value={card.question}
                 onChange={(e) => {
-                  const updatedCards = [...cards]; // copy of the current cards
-                  updatedCards[index].question = e.target.value; // update the question
-                  setCards(updatedCards); // update the state
+                  const updatedCards = [...cards];
+                  updatedCards[index].question = e.target.value;
+                  setCards(updatedCards);
                 }}
               />
-
-              {/* input for answer */}
               <input
                 type="text"
-                placeholder="Answer" // text placeholder for clarity
-                value={card.answer} // controlled input for answer
+                placeholder="Answer"
+                value={card.answer}
                 onChange={(e) => {
-                  const updatedCards = [...cards]; // copy of the current cards
-                  updatedCards[index].answer = e.target.value; // update the answer
-                  setCards(updatedCards); // update the state
+                  const updatedCards = [...cards];
+                  updatedCards[index].answer = e.target.value;
+                  setCards(updatedCards);
                 }}
               />
             </div>
           ))}
         </div>
 
-        {/* button to add a new card */}
         <button type="button" onClick={addCard}>
           Add Card
         </button>
 
-        {/* button to submit the form */}
         <button type="submit" disabled={!isFormValid}>
           Create Set
         </button>
@@ -109,5 +104,4 @@ const CreateSetPage = ({ onNavigate }) => {
   );
 };
 
-// export the component
 export default CreateSetPage;

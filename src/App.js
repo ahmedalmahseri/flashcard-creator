@@ -6,12 +6,19 @@ import './App.css';
 
 function App() {
   const [page, setPage] = useState('home'); 
+  const [selectedSetId, setSelectedSetId] = useState(null); // the id of the selected set
+
+  // function to navigate between pages and save setId if needed
+  const handleNavigate = (nextPage, setId = null) => {
+    setPage(nextPage); // update current page
+    if (setId) setSelectedSetId(setId); // store the selected set id
+  };
 
   return (
     <div>
-      {page === 'home' && <HomePage onNavigate={setPage} />}
-      {page === 'create-set' && <CreateSetPage onNavigate={setPage} />}
-      {page === 'study' && <StudyPage onNavigate={setPage} />}
+      {page === 'home' && <HomePage onNavigate={handleNavigate} />}
+      {page === 'create-set' && <CreateSetPage onNavigate={handleNavigate} />}
+      {page === 'study' && <StudyPage onNavigate={handleNavigate} setId={selectedSetId} />}
     </div>
   );
 }

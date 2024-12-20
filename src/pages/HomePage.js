@@ -18,26 +18,29 @@ const HomePage = ({ onNavigate }) => {
       });
   }, []);
 
+  if (loading) return <p>Loading sets...</p>;
+
   return (
     <div>
       <h1>Home Page</h1>
       <h1>Welcome to Flashcard Creator</h1>
       <p>Create and manage your flashcard sets easily!</p>
 
-      {/* navigation buttons */}
+      {/* Navigation buttons */}
       <button onClick={() => onNavigate('create-set')}>Create a New Set</button>
-      <button onClick={() => onNavigate('study')}>Study Flashcards</button>
 
-      {/* flashcard sets section */}
+      {/* Flashcard sets section */}
       <h2>Your Flashcard Sets</h2>
-      {loading ? (
-        <p>Loading flashcard sets...</p>
-      ) : flashcardSets.length > 0 ? (
+      {flashcardSets.length > 0 ? (
         <ul>
           {flashcardSets.map((set) => (
             <li key={set._id}>
               <h3>{set.title}</h3>
-              <p>{set.description}</p>
+              <p>{set.description || 'No description provided.'}</p>
+              {/* Button to study this set */}
+              <button onClick={() => onNavigate('study', set._id)}>
+                Study This Set
+              </button>
             </li>
           ))}
         </ul>
