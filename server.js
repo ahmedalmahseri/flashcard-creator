@@ -49,6 +49,10 @@ app.post('/api/sets', async (req, res) => {
   }
 });
 
+// Test route
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'API is working!' });
+});
 
 // get all flashcard sets
 app.get('/api/sets', async (req, res) => {
