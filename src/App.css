@@ -99,6 +99,11 @@ input {
   box-sizing: border-box; /* this also fixes the bad border */
 }
 
+textarea {
+  resize: none; /*prevents resizing for consistent appearance */
+  border: 1px solid #ccc; /* sets the border to match inputs */
+}
+
 button {
   padding: 10px 15px;
   background-color: #007bff;
@@ -192,4 +197,50 @@ button:disabled {
 .navigation-buttons button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+/* align and style the flashcard sets list */
+ul {
+  list-style: none; /* removes bullet points */
+  padding: 0; /* removes default padding */
+  margin: 20px auto; /* centers the list on the page */
+  max-width: 600px; /*list doesnt stretch too wide */
+}
+
+li {
+  margin-bottom: 20px; /* adds space between each set */
+  text-align: center; /* centers the stuff inside the list item */
+  background: #ffffff; /* adds a background for better readability */
+  padding: 10px;
+  border-radius: 10px; /* rounds the corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* adds a slight shadow */
+}
+
+li h3 {
+  margin: 0; /* removes margin */
+  font-size: 1.2rem; /*makes the title slightly larger */
+}
+
+li button {
+  margin: 5px; /* adds space between buttons */
+  display: inline-block; /*buttons are spaced properly */
+}
+
+/* Style for input and textarea placeholders */
+input::placeholder,
+textarea::placeholder {
+  font-family: Arial, sans-serif; /*matchs the font*/
+  font-size: 16px; /*match the font size*/
+  color: #aaa; /*use a light gray color */
+  font-style: italic; /* italic */
+}
+
+textarea {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  padding: 10px; /* padding matches input */
+  color: #333;
+  border: 1px solid #ccc; /* match input border */
+  border-radius: 5px; /*consistent border radius */
+  box-sizing: border-box; /* consistent box model */
 }

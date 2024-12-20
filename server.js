@@ -27,7 +27,7 @@ const flashcardSchema = new mongoose.Schema({
 
 const flashcardSetSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  description: { type: String },
+  description: { type: String }, // optional desription
   cards: [flashcardSchema], // array of flashcards
 });
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const CreateSetPage = ({ onNavigate }) => {
   const [setName, setSetName] = useState(''); // state for flashcard set name
+  const [setDescription, setSetDescription] = useState(''); // state for flashcard set description
   const [cards, setCards] = useState([{ question: '', answer: '' }]); // state for flashcards
   const [successMessage, setSuccessMessage] = useState(''); // success message
   const [errorMessage, setErrorMessage] = useState(''); // error message
@@ -13,9 +14,9 @@ const CreateSetPage = ({ onNavigate }) => {
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent the page from reloading
 
-    const newSet = { title: setName, cards }; // gather form data
+    const newSet = { title: setName, description: setDescription, cards }; // gather form data
 
-    // Clear previous messages
+    // clear previous messages
     setErrorMessage('');
     setSuccessMessage('');
 
@@ -34,8 +35,8 @@ const CreateSetPage = ({ onNavigate }) => {
         console.log('Flashcard set created:', data); // Debugging log
         setSuccessMessage('Flashcard set created successfully!'); // Display success
         setSetName(''); // Reset form
+        setSetDescription(''); // Reset description
         setCards([{ question: '', answer: '' }]);
-        setTimeout(() => onNavigate('home'), 1000); // Navigate back to home after 1 second
       })
       .catch((error) => {
         console.error('Error creating flashcard set:', error); // Debugging log
@@ -62,6 +63,17 @@ const CreateSetPage = ({ onNavigate }) => {
             value={setName}
             onChange={(e) => setSetName(e.target.value)}
             placeholder="Enter set name"
+          />
+        </label>
+
+        <label>
+          Set Description: {/* Added a description field */}
+          <textarea
+            value={setDescription}
+            onChange={(e) => setSetDescription(e.target.value)}
+            placeholder="Enter a brief description (optional)"
+            rows="3"
+            style={{ width: '100%' }}
           />
         </label>
 

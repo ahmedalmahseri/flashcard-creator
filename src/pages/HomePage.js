@@ -55,7 +55,7 @@ return (
         {flashcardSets.map((set) => (
           <li key={set._id}>
             <h3>{set.title}</h3>
-            <p>{set.description || 'No description provided.'}</p>
+            {set.description && <p>{set.description}</p>} {/* Show description if provided */}
             {/* Button to study this set */}
             <button onClick={() => onNavigate('study', set._id)}>Study This Set</button>
             {/* button to delete this set */}
